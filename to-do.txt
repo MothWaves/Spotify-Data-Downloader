@@ -1,0 +1,11 @@
+* Information Gathering (Playlists):
+- Get username of current_user
+- Get all the playlists
+- While getting all the playlists split playlists not made by the current_user and playlists made by current_user
+- Get information for saved songs too (Liked Songs)
+* Information Gathering (Tracks):
+- For each playlist get the track information of each track within the playlist.
+* Information Compilation:
+- Make json file with important playlist information and all of the import track information contained within.
+- Split the json between the ones the current_user didn't make and the ones the current_user did make (maybe collaborative too if you can figure out how to separate that)
+- write the json files into a directory.

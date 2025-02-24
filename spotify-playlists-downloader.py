@@ -4,13 +4,14 @@ import spotipy
 import json
 from spotipy.oauth2 import SpotifyOAuth
 
-scope = "user-library-read"
+scope = "playlist-read-private,playlist-read-collaborative"
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 results = sp.current_user_playlists()
-print(json.dumps(results))
-# results = sp.current_user_saved_tracks(50)
-# for idx, item in enumerate(results['items']):
-#     track = item['track']
-#     print(idx, track['artists'][0]['name'], " – ", track['name'])
+playlists = results['items']
+while results['next']:
+    results = sp.next(results)
+    playlists.extend(results['items'])
+
+print(json.dumps(playlists))
