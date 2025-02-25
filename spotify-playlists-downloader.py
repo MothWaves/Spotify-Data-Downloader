@@ -24,6 +24,7 @@ while results['next']:
 # Process Playlists
 my_playlists = []
 others_playlists = []
+counter = 1
 for playlist in playlists_result:
     if playlist['type'] != "playlist":
         raise Exception
@@ -44,5 +45,7 @@ for playlist in playlists_result:
         my_playlists.append(processed_pl)
     else:
         others_playlists.append(processed_pl)
+    print("Playlist " + str(counter) + " Done")
+    counter += 1
 
 print(json.dumps(my_playlists))

@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-from lib.SpotifyClasses import User
-from lib.SpotifyClasses import Track
-from lib.SpotifyClasses import Artist
-from lib.SpotifyClasses import TrackEntry
-from lib.SpotifyClasses import Album
+from lib.SpotifyClasses import *
 import json
 
 def get_tracks(sp, pl_id):
@@ -15,7 +11,7 @@ def get_tracks(sp, pl_id):
         results = sp.next(results)
         tracks_results.extend(results['items'])
 
-    return process_tracks(sp, tracks_results)
+    return process_track_entries(sp, tracks_results)
 
 def process_owner(owner):
     # Checks if type of data is user
@@ -76,8 +72,22 @@ def process_tracks(track):
                             uri)
 
 def process_episodes(episode):
+    name = episode['name']
+    description = episode['description']
+    show = process_show(episode['show'])
+    episode_id = episode['id']
+    uri = episode['uri']
 
-   
+    return Episode(name, description, show, episode_id, uri)
+
+def process_show(show):
+    name = show['name']
+    description = show['description']
+    publisher = show['publisher']
+    show_id = show['id']
+    uri = show['uri']
+
+    return Show(name, description, publisher, show_id, uri)
 
 def process_album(album):
     if album['type'] != "album":

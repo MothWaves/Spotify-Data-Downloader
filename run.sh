@@ -9,4 +9,10 @@ source .virtual-env/
 source set-env-variables.sh
 # Runs program
 python spotify-playlists-downloader.py
-# Moves to
+# Moves to export folder
+#cd ...
+# Git commit
+git init .
+date_var="$(date -Iminutes)"
+git add .
+git commit -m "Download Spotify Playlists ($date_var)"

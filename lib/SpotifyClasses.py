@@ -25,10 +25,19 @@ class Track:
         self.track_id = track_id
         self.uri = uri
 class Episode:
-    def __init__(self, name, description, show):
+    def __init__(self, name, description, show, episode_id, uri):
         self.name = name
         self.description = description
         self.show = show
+        self.episode_id = episode_id
+        self.uri = uri
+class Show:
+    def __init__(self, name, description, publisher, show_id, uri):
+        self.name = name
+        self.description = description
+        self.publisher = publisher
+        self.show_id = show_id
+        self.uri = uri
 class Album:
     def __init__(self, name, album_id, artists, uri):
         self.name = name
