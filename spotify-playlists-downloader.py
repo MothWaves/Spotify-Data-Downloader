@@ -44,3 +44,5 @@ for playlist in playlists_result:
         my_playlists.append(processed_pl)
     else:
         others_playlists.append(processed_pl)
+
+print(json.dumps(my_playlists))

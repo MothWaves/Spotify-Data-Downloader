@@ -23,3 +23,5 @@ export SPOTIPY_CLIENT_ID='your-spotify-client-id'
 export SPOTIPY_CLIENT_SECRET='your-spotify-client-secret'
 export SPOTIPY_REDIRECT_URI='your-app-redirect-url'
 ```
+
+I suggest using `'http://localhost:8888/callback'` for the `SPOTIPY_REDIRECT_URI`.

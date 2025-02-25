@@ -2,6 +2,9 @@
 
 from lib.SpotifyClasses import User
 from lib.SpotifyClasses import Track
+from lib.SpotifyClasses import Artist
+from lib.SpotifyClasses import TrackEntry
+from lib.SpotifyClasses import Album
 import json
 
 def get_tracks(sp, pl_id):
@@ -25,11 +28,9 @@ def process_owner(owner):
     uri = owner['uri']
     return User(name, user_id, uri)
 
-def process_tracks(sp, tracks):
+def process_track_entries(sp, tracks):
     processed_entries = []
     for track_entry in tracks:
-        if track_entry['track']['type'] != "track":
-            raise Exception
         # Get Track Entry Data
         added_at = track_entry['added_at']
         adder_name = sp.user(track_entry['added_by']['id'])['display_name']
@@ -39,31 +40,44 @@ def process_tracks(sp, tracks):
             'uri': track_entry['added_by']['uri']
         }
 
-        track = track_entry['track']
-        # Get Track Data
-        name = track['name']
-        album = process_album(track['album'])
-        artists = process_artists(track['artists'])
-        disc_number = track['disc_number']
-        track_number = track['track_number']
-        track_id = track['id']
-        uri = track['uri']
+        # Check type of playlist entry
+        if track_entry['track']['type'] == "track":
+            processed_content = process_tracks(track_entry['track'])
+        elif track_entry['track']['type'] == "episode":
+            processed_content = process_episodes(track_entry['track'])
+        else:
+            raise Exception
 
-        # Put together Data
-        processed_track = Track(name,
-                                album,
-                                artists,
-                                disc_number,
-                                track_number,
-                                track_id,
-                                uri)
         processed_entry = TrackEntry(added_at,
                                      added_by,
-                                     processed_track)
+                                     processed_content)
 
         processed_entries.append(processed_entry)
 
     return processed_entries
+
+def process_tracks(track):
+    # Get Track Data
+    name = track['name']
+    album = process_album(track['album'])
+    artists = process_artists(track['artists'])
+    disc_number = track['disc_number']
+    track_number = track['track_number']
+    track_id = track['id']
+    uri = track['uri']
+
+    # Put together Data
+    processed_track = Track(name,
+                            album,
+                            artists,
+                            disc_number,
+                            track_number,
+                            track_id,
+                            uri)
+
+def process_episodes(episode):
+
+   
 
 def process_album(album):
     if album['type'] != "album":
