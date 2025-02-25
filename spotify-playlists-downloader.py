@@ -6,6 +6,13 @@ from spotipy.oauth2 import SpotifyOAuth
 
 from lib.SpotifyFunctions import *
 from lib.SpotifyClasses import *
+import os
+import sys
+from pathlib import Path
+
+if sys.platform != "linux":
+    print("Linux is the only implemented os, thus far.")
+    exit(-1)
 
 scope = "playlist-read-private,playlist-read-collaborative"
 
@@ -46,8 +53,21 @@ for playlist in playlists_result:
     else:
         others_playlists.append(processed_pl)
     print("Playlist " + str(counter) + " Done")
+    if counter == 2:
+        break
     counter += 1
-    print(json.dumps(processed_pl))
-    exit(0)
 
-print(json.dumps(my_playlists))
+
+# Create directory for playlists if it doesn't exist.
+dir_path = Path('./spotify-playlists')
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
+
+others_playlists_p = dir_path / "others_playlists.json"
+my_playlists_p = dir_path / "my_playlists.json"
+
+# Write data to files.
+with open(others_playlists_p, "w") as f:
+    json.dump(others_playlists, f)
+with open(my_playlists_p, "w") as f:
+    json.dump(my_playlists, f)

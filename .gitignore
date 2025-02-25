@@ -171,3 +171,4 @@ cython_debug/
 
 # Custom Additions
 set-env-variables.sh
+spotify-playlists/
