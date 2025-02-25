@@ -25,6 +25,8 @@ while results['next']:
 my_playlists = []
 others_playlists = []
 for playlist in playlists_result:
+    if playlist['type'] != "playlist":
+        raise Exception
     # Get Playlist Data
     title = playlist['name']
     description = playlist['description']
@@ -35,7 +37,7 @@ for playlist in playlists_result:
     processed_pl = Playlist(title, description, owner, pl_id, pl_snapshot_id, uri)
 
     # Gather tracks for playlist
-    processed_pl.tracks = get_tracks(sp, pl_id)
+    processed_pl.track_entries = get_tracks(sp, pl_id)
 
     # Split into current_user's playlists and other's playlists
     if owner.user_id == current_user_id:

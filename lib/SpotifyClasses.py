@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 class Playlist:
-    tracks = []
+    track_entries = []
     def __init__(self, title, description, owner, pl_id, pl_snapshot_id, uri):
         self.title = title
         self.description = description
@@ -10,13 +10,31 @@ class Playlist:
         self.pl_snapshot_id = pl_snapshot_id
         self.uri = uri
 
-class Track:
-    def __init__(self, name):
-        self.name = name
 class TrackEntry:
+    def __init__(self, added_at, added_by, track):
+        self.added_at = added_at
+        self.added_by = added_by
+        self.track = track
+class Track:
+    def __init__(self, name, album, artists, disc_number, track_number, track_id, uri):
+        self.name = name
+        self.album = album
+        self.artists = artists
+        self.disc_number = disc_number
+        self.track_number = track_number
+        self.track_id = track_id
+        self.uri = uri
 class Album:
-    def __init__(self):
-        pass
+    def __init__(self, name, album_id, artists, uri):
+        self.name = name
+        self.album_id = album_id
+        self.artists = artists
+        self.uri = uri
+class Artist:
+    def __init__(self, name, artist_id, uri):
+        self.name = name
+        self.artist_id = artist_id
+        self.uri = uri
 class User:
     def __init__(self, name, user_id, uri):
         self.name = name
