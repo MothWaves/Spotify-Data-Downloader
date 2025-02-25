@@ -6,11 +6,11 @@
 # Activates python virtual environment
 source .virtual-env/bin/activate
 # Sets env variables.
-source set-env-variables.sh
+source ./set-env-variables.sh
 # Runs program
 python spotify-playlists-downloader.py
 # Moves to export folder
-cd spotify-playlists
+cd ./spotify-playlists
 # Git commit
 git init .
 date_var="$(date -Iminutes)"
