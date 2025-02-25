@@ -10,7 +10,7 @@ source set-env-variables.sh
 # Runs program
 python spotify-playlists-downloader.py
 # Moves to export folder
-#cd ...
+cd spotify-playlists
 # Git commit
 git init .
 date_var="$(date -Iminutes)"

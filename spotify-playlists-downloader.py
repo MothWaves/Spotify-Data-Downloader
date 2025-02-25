@@ -53,8 +53,6 @@ for playlist in playlists_result:
     else:
         others_playlists.append(processed_pl)
     print("Playlist " + str(counter) + " Done")
-    if counter == 2:
-        break
     counter += 1
 
 
