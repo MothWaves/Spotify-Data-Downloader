@@ -9,3 +9,7 @@
 - Make json file with important playlist information and all of the import track information contained within.
 - Split the json between the ones the current_user didn't make and the ones the current_user did make (maybe collaborative too if you can figure out how to separate that)
 - write the json files into a directory.
+* Error Checking
+- Check if types are the expected.
+* Refactoring
+- Change the passing of sp to each function that needs it into a singleton system.
