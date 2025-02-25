@@ -70,6 +70,7 @@ def process_tracks(track):
                             track_number,
                             track_id,
                             uri)
+    return processed_track
 
 def process_episodes(episode):
     name = episode['name']

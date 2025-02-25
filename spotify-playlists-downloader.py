@@ -38,14 +38,16 @@ for playlist in playlists_result:
     processed_pl = Playlist(title, description, owner, pl_id, pl_snapshot_id, uri)
 
     # Gather tracks for playlist
-    processed_pl.track_entries = get_tracks(sp, pl_id)
+    processed_pl['track_entries'] = get_tracks(sp, pl_id)
 
     # Split into current_user's playlists and other's playlists
-    if owner.user_id == current_user_id:
+    if owner['user_id'] == current_user_id:
         my_playlists.append(processed_pl)
     else:
         others_playlists.append(processed_pl)
     print("Playlist " + str(counter) + " Done")
     counter += 1
+    print(json.dumps(processed_pl))
+    exit(0)
 
 print(json.dumps(my_playlists))
