@@ -4,7 +4,7 @@
 # You can use it as a starting off point, though.
 
 # Activates python virtual environment
-source .virtual-env/
+source .virtual-env/bin/activate
 # Sets env variables.
 source set-env-variables.sh
 # Runs program
