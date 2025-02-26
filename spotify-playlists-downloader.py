@@ -6,6 +6,7 @@ from spotipy.oauth2 import SpotifyOAuth
 
 from lib.SpotifyFunctions import *
 from lib.SpotifyClasses import *
+from lib.Singletons import *
 import os
 import sys
 from pathlib import Path
@@ -15,19 +16,24 @@ if sys.platform != "linux":
     exit(-1)
 
 scope = "playlist-read-private,playlist-read-collaborative"
+requests_counter = RequestsCounter()
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 # Get current_user id
 current_user_id = sp.current_user()['id']
-print(sp.current_user_saved_tracks())
-exit(0)
+requests_counter.increment()
+
+# TODO Load existing playlists from json files.
 
 # Get Playlists
 results = sp.current_user_playlists()
+requests_counter.increment()
 playlists_result = results['items']
 while results['next']:
+    requests_counter.check_rate()
     results = sp.next(results)
+    requests_counter.increment()
     playlists_result.extend(results['items'])
 
 # Process Playlists
@@ -58,12 +64,17 @@ for playlist in playlists_result:
     counter += 1
 
 results = sp.current_user_saved_tracks()
+requests_counter.increment()
 tracks_results = results['items']
 while results['next']:
+    requests_counter.check_rate()
     results = sp.next(results)
+    requests_counter.increment()
     tracks_results.extend(results['items'])
 
 liked_songs = process_track_entries(sp, tracks_results)
+
+# TODO Get names of added by ids.
 
 # Create directory for playlists if it doesn't exist.
 dir_path = Path('./spotify-playlists')

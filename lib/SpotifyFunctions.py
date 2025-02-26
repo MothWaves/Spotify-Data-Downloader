@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
 
 from lib.SpotifyClasses import *
+from lib.Singletons import *
 import json
 
 def get_tracks(sp, pl_id):
+    requests_counter = RequestsCounter()
+    requests_counter.check_rate()
     # Request playlist tracks
     results = sp.playlist_items(pl_id)
+    requests_counter.increment()
     tracks_results = results['items']
     while results['next']:
+        # Waits a bit to not hit the spotify api rate limit.
+        requests_counter.check_rate()
         results = sp.next(results)
         tracks_results.extend(results['items'])
+        requests_counter.increment()
 
-    return process_track_entries(sp, tracks_results)
+    return process_track_entries(tracks_results)
 
 def process_owner(owner):
     # Checks if type of data is user
@@ -24,14 +31,16 @@ def process_owner(owner):
     uri = owner['uri']
     return User(name, user_id, uri)
 
-def process_track_entries(sp, tracks):
+def process_track_entries(tracks):
+    added_by_list = AddedByIdList()
     processed_entries = []
     for track_entry in tracks:
         # Get Track Entry Data
         added_at = track_entry['added_at']
-        adder_name = sp.user(track_entry['added_by']['id'])['display_name']
+        if track_entry['added_by']['id'] not in added_by_lists.ids:
+            added_by_list.ids.append(track_entry['added_by']['id'])
         added_by = {
-            'display_name': adder_name,
+            # display name will be added later.
             'id': track_entry['added_by']['id'],
             'uri': track_entry['added_by']['uri']
         }
