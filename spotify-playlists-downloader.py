@@ -20,6 +20,8 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 # Get current_user id
 current_user_id = sp.current_user()['id']
+print(sp.current_user_saved_tracks())
+exit(0)
 
 # Get Playlists
 results = sp.current_user_playlists()
@@ -55,6 +57,13 @@ for playlist in playlists_result:
     print("Playlist " + str(counter) + " Done")
     counter += 1
 
+results = sp.current_user_saved_tracks()
+tracks_results = results['items']
+while results['next']:
+    results = sp.next(results)
+    tracks_results.extend(results['items'])
+
+liked_songs = process_track_entries(sp, tracks_results)
 
 # Create directory for playlists if it doesn't exist.
 dir_path = Path('./spotify-playlists')
@@ -63,9 +72,12 @@ if not os.path.exists(dir_path):
 
 others_playlists_p = dir_path / "others_playlists.json"
 my_playlists_p = dir_path / "my_playlists.json"
+liked_songs_p = dir_path / "liked_songs.json"
 
 # Write data to files.
 with open(others_playlists_p, "w") as f:
     json.dump(others_playlists, f)
 with open(my_playlists_p, "w") as f:
     json.dump(my_playlists, f)
+with open(liked_songs_p, "w") as f:
+    json.dump(liked_songs, f)
