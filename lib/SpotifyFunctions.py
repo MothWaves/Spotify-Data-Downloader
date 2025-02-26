@@ -37,7 +37,7 @@ def process_track_entries(tracks):
     for track_entry in tracks:
         # Get Track Entry Data
         added_at = track_entry['added_at']
-        if track_entry['added_by']['id'] not in added_by_lists.ids:
+        if track_entry['added_by']['id'] not in added_by_list.ids:
             added_by_list.ids.append(track_entry['added_by']['id'])
         added_by = {
             # display name will be added later.
