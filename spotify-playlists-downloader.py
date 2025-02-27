@@ -17,12 +17,13 @@ if sys.platform != "linux":
 
 scope = "playlist-read-private,playlist-read-collaborative"
 requests_counter = RequestsCounter()
-
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+sp = SpotifySingleton(spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope)))
 
 # Get current_user id
-current_user_id = sp.current_user()['id']
+current_user = sp.current_user()
 requests_counter.increment()
+current_user_id = current_user['id']
+current_user_uri = current_user['uri']
 
 # TODO Load existing playlists from json files.
 
@@ -72,9 +73,28 @@ while results['next']:
     requests_counter.increment()
     tracks_results.extend(results['items'])
 
-liked_songs = process_track_entries(sp, tracks_results)
+liked_songs = process_track_entries(tracks_results)
 
-# TODO Get names of added by ids.
+# Get names of added_by ids.
+added_by_list = AddedByList()
+added_by_list.get_display_names()
+
+add_display_names(others_playlists)
+# Ok so you don't really need to do much thinking for these playlists
+# because all of the track entries here will be added by you
+# unless its a collaborative playlist but even that
+# doesnt apply to the liked songs.
+# But whatever. Easier to use the existing function than to just side-step the issue.
+# Ok, update, due to the fact liked_songs is structured
+# differently I can't use add_display_names either way
+# so I guess it all works out in the end and the function
+# is only used when necessary.
+add_display_names(my_playlists)
+for track in liked_songs:
+    track['added_by'] = {}
+    track['added_by']['display_name'] =  added_by_list.display_names[current_user_id]
+    track['added_by']['id'] =  current_user_id
+    track['added_by']['uri'] =  current_user_uri
 
 # Create directory for playlists if it doesn't exist.
 dir_path = Path('./spotify-playlists')

@@ -32,18 +32,24 @@ def process_owner(owner):
     return User(name, user_id, uri)
 
 def process_track_entries(tracks):
-    added_by_list = AddedByIdList()
+    added_by_list = AddedByList()
     processed_entries = []
     for track_entry in tracks:
         # Get Track Entry Data
-        added_at = track_entry['added_at']
-        if track_entry['added_by']['id'] not in added_by_list.ids:
-            added_by_list.ids.append(track_entry['added_by']['id'])
-        added_by = {
-            # display name will be added later.
-            'id': track_entry['added_by']['id'],
-            'uri': track_entry['added_by']['uri']
-        }
+        if 'added_at' in track_entry:
+            added_at = track_entry['added_at']
+        else:
+            added_at = None
+        if 'added_by' in track_entry:
+            if track_entry['added_by']['id'] not in added_by_list.ids:
+                added_by_list.ids.append(track_entry['added_by']['id'])
+            added_by = {
+                # display name will be added later.
+                'id': track_entry['added_by']['id'],
+                'uri': track_entry['added_by']['uri']
+            }
+        else:
+            added_by = None
 
         # Check type of playlist entry
         if track_entry['track']['type'] == "track":
@@ -121,3 +127,12 @@ def process_artists(artists):
         processed_artists.append(Artist(name, artist_id, uri))
 
     return processed_artists
+
+def add_display_names(playlists):
+    added_by_list = AddedByList()
+    for playlist in playlists:
+        for track_entry in playlist['track_entries']:
+            identifier = track_entry['added_by']['id']
+            if track_entry['added_by'] is None:
+                continue
+            track_entry['added_by']['display_name'] = added_by_list.display_names[identifier]

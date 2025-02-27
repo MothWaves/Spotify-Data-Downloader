@@ -1,4 +1,4 @@
 * Refactoring
-- Change the passing of sp to each function that needs it into a singleton system.
+- Change the passing of sp to each function that needs it into a singleton system. Update: The singleton is already implemented but I don't think I changed the passing it as argument. I just used it for one case or something. It's fine, the project works pretty well and I don't think I'll be touching it again.
 * Rate Limiting
 - Begin using snapshot_id to not refresh playlists that are already downloaded. This will require quite a bit of refactoring.
