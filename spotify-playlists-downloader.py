@@ -15,7 +15,7 @@ if sys.platform != "linux":
     print("Linux is the only implemented os, thus far.")
     exit(-1)
 
-scope = "playlist-read-private,playlist-read-collaborative"
+scope = "playlist-read-private,playlist-read-collaborative,user-library-read"
 requests_counter = RequestsCounter()
 sp = SpotifySingleton(spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope)))
 
