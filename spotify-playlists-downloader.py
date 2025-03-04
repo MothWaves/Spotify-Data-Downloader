@@ -107,8 +107,8 @@ liked_songs_p = dir_path / "liked_songs.json"
 
 # Write data to files.
 with open(others_playlists_p, "w") as f:
-    json.dump(others_playlists, f)
+    json.dump(others_playlists, f, indent="\t")
 with open(my_playlists_p, "w") as f:
-    json.dump(my_playlists, f)
+    json.dump(my_playlists, f, indent="\t")
 with open(liked_songs_p, "w") as f:
-    json.dump(liked_songs, f)
+    json.dump(liked_songs, f, indent="\t")
