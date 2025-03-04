@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # This script is made around my own private setup for this program and will not work without changes.
 # You can use it as a starting off point, though.
