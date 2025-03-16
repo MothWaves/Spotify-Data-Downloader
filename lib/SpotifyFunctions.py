@@ -35,6 +35,10 @@ def process_track_entries(tracks):
     added_by_list = AddedByList()
     processed_entries = []
     for track_entry in tracks:
+        # If track entry has no track info, skip track entry.
+        if track_entry['track'] == None:
+            continue
+
         # Get Track Entry Data
         if 'added_at' in track_entry:
             added_at = track_entry['added_at']
