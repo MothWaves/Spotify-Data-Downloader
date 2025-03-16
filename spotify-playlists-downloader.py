@@ -17,7 +17,7 @@ if sys.platform != "linux":
 
 scope = "playlist-read-private,playlist-read-collaborative,user-library-read"
 requests_counter = RequestsCounter()
-sp = SpotifySingleton(spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope)))
+sp = SpotifySingleton(spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope),retries=10,requests_timeout=20))
 
 # Get current_user id
 current_user = sp.current_user()
